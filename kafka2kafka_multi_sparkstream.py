@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
     #kafka_df.printSchema()
 
-    value_df = kafka_df.select(from_json(col("value").cast("string"), schema).alias("value"))
+    value_df = kafka_df.select(from_json(col("value").cast("string"), schema).alias("value")) #from_json is used to deserialize json value from string, if we use csv data we could ve been used from_csv here
     notification_df = value_df.select("value.InvoiceNumber", "value.CustomerCardNo", "value.TotalAmount") \
     .withColumn("EarnedLoyaltyPoints", expr("TotalAmount*0.2"))
 
@@ -95,13 +95,5 @@ if __name__ == "__main__":
         .start()
 
     spark.streams.awaitAnyTermination()
-
-
-
-
-
-
-
-
 
     notification_writer_query.awaitTermination()
