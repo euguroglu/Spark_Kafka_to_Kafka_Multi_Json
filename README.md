@@ -216,3 +216,19 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 kafka2k
 }
 ```
 7. Check hdfs for output json file
+```json
+{
+  "InvoiceNumber": "51402977",
+  "CreatedTime": 1595688900348,
+  "StoreID": "STR7188",
+  "PosID": "POS956",
+  "CustomerType": "PRIME",
+  "PaymentMethod": "CARD",
+  "DeliveryType": "TAKEAWAY",
+  "ItemCode": "458",
+  "ItemDescription": "Wine glass",
+  "ItemPrice": 1644,
+  "ItemQty": 2,
+  "TotalValue": 3288
+}
+```
