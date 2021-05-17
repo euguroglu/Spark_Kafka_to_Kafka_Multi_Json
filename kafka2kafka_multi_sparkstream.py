@@ -7,6 +7,7 @@ if __name__ == "__main__":
         .builder \
         .appName("Kafka stream") \
         .config("spark.streaming.stop.stopGracefullyOnShutdown", "true") \
+        .master("yarn")
         .getOrCreate()
 
     schema = StructType([
@@ -58,9 +59,11 @@ if __name__ == "__main__":
                                                  """to_json(named_struct(
                                                  'CustomerCardNo', CustomerCardNo,
                                                  'TotalAmount', TotalAmount,
-                                                 'EarnedLoyaltyPoints', TotalAmount * 0.2)) as value""")
+                                                 'EarnedLoyaltyPoints', TotalAmount * 0.2)) as value""") #to_json is used to serialize data to json value. We can use to_csv as well.
 
+# struct or named_struct can be used to serialize data, struct takes only columns while named_struct allows to rename columns.
 
+# Write to kafka topic
     notification_writer_query = kafka_target_df \
             .writeStream \
             .queryName("Notification Writer") \
@@ -68,7 +71,7 @@ if __name__ == "__main__":
             .option("kafka.bootstrap.servers", "localhost:9092") \
             .option("topic", "notifications") \
             .outputMode("append") \
-            .option("checkpointLocation", "chk-point-dir") \
+            .option("checkpointLocation", "Multistream/chk-point-dir/kafka") \
             .start()
 
 
@@ -86,12 +89,13 @@ if __name__ == "__main__":
         .withColumn("TotalValue", expr("LineItem.TotalValue")) \
         .drop("LineItem")
 
+# Write to hdfs 
     invoice_writer_query = flattened_df.writeStream \
         .format("json") \
         .queryName("Flattened Invoice Writer") \
         .outputMode("append") \
-        .option("path", "output") \
-        .option("checkpointLocation", "chk-point-dir/flatten") \
+        .option("path", "/home/enes/Applications/output3") \
+        .option("checkpointLocation", "Multistream/chk-point-dir/flatten") \
         .start()
 
     spark.streams.awaitAnyTermination()
