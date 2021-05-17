@@ -191,7 +191,7 @@ spark.streams.awaitAnyTermination()
 
 ### Code Description
 
-kafka2kafka_multi_sparkstream.py is spark script to make desired transformations and write them to the another kafka topic as well as hdfs location. Note that in the spark script we are implementing deserialization and serialization when we collect data from kafka and before sending it to the kafka again. 
+kafka2kafka_multi_sparkstream.py is spark script to make desired transformations and write them to the another kafka topic as well as hdfs location. Note that in the spark script we are implementing deserialization and serialization when we collect data from kafka and before sending it to the kafka again.
 
 ### Running
 
@@ -199,7 +199,7 @@ kafka2kafka_multi_sparkstream.py is spark script to make desired transformations
 
 2. Start spark job
 ```
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 kafka2kafka_sparkstream.py
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.1 kafka2kafka_multi_sparkstream.py
 ```
 3. Start kafka producer
 

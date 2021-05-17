@@ -7,7 +7,7 @@ if __name__ == "__main__":
         .builder \
         .appName("Kafka stream") \
         .config("spark.streaming.stop.stopGracefullyOnShutdown", "true") \
-        .master("yarn")
+        .master("yarn") \
         .getOrCreate()
 
     schema = StructType([
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         .withColumn("TotalValue", expr("LineItem.TotalValue")) \
         .drop("LineItem")
 
-# Write to hdfs 
+# Write to hdfs
     invoice_writer_query = flattened_df.writeStream \
         .format("json") \
         .queryName("Flattened Invoice Writer") \
